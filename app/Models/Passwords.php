@@ -13,7 +13,8 @@ class Passwords extends Model
     protected $fillable = [
         "title_site",
         "site_url",
-        "gen_password"
+        "gen_password",
+        "user_id"
     ];
 
     function user (): BelongsTo {
