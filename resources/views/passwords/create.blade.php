@@ -1,5 +1,7 @@
+
+
 <form action="{{ route('passwords.store') }}" method="post">
-    @csrf()
+    @csrf
     <div>
         <input type="text" name="title_site" >
     </div>

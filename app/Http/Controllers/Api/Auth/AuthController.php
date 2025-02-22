@@ -23,7 +23,7 @@ class AuthController extends Controller
     }
 
     function signin (Request $request) {
-        dd($request->all());
+        
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {

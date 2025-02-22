@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Passwords;
 use App\Http\Controllers\Controller;
 use App\Models\Passwords;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordsController extends Controller
 {
@@ -13,7 +14,8 @@ class PasswordsController extends Controller
      */
     public function index()
     {
-        $pass = Passwords::with('user')->where("user_id", 1)->get();
+        $pass = Passwords::with('user')->where("user_id", Auth::user()->id)->get();
+        
         return view("passwords.index", compact('pass'));
     }
 
@@ -41,11 +43,12 @@ class PasswordsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->session()->token();
         $passNew = [
             "title_site" => $request->title_site,
             "site_url" => $request->site_url,
             "gen_password" => $request->gen_password,
-            "user_id" => 1
+            "user_id" => Auth::user()->id
         ];
         
 
