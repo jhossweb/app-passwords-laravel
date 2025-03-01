@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Passwords\PasswordsController;
+use App\Livewire\Home\HomeComponents;
 use App\Livewire\Passwords;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Rules\Role;
@@ -17,6 +18,10 @@ Route::get('/login', [AuthController::class, 'login'])->name("auth.login");
 Route::post("/signin", [AuthController::class, 'signin'])->name("auth.signin");
 Route::get("/logout", [AuthController::class, 'logout']);*/
 
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+Route::get("/passwords", Passwords::class)->name("passwords");
 
 Route::middleware([
     'auth:sanctum',
@@ -27,6 +32,3 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
-
-Route::get("/passwords", Passwords::class)->name("passwords");
