@@ -12,6 +12,8 @@
             </div>
         @endsession
 
+        <a href="/google-auth/redirect"> google </a>
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
 

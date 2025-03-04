@@ -4,8 +4,11 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Passwords\PasswordsController;
 use App\Livewire\Home\HomeComponents;
 use App\Livewire\Passwords;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Rules\Role;
+use Laravel\Socialite\Facades\Socialite;
 /*
 Route::get("/", [PasswordsController::class, 'index']);
 Route::get("/generated", [PasswordsController::class, 'create']);
@@ -22,6 +25,26 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 Route::get("/passwords", Passwords::class)->name("passwords");
+
+
+Route::get('/google-auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/google-auth/callback', function () {
+    $userGoogle = Socialite::driver('google')->user();
+    
+    $user = User::updateOrCreate([
+        'google_id' => $userGoogle->id,
+    ], [
+        'name' => $userGoogle->name,
+        'email' => $userGoogle->email
+    ]);
+
+    Auth::login($user);
+
+    return redirect('/passwords');
+});
 
 Route::middleware([
     'auth:sanctum',
