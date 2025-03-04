@@ -11,12 +11,12 @@
                 comprometas tu seguridad online.
             </p>
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <button class="px-6 py-3 bg-blue-600 text-white rounded-md hover:text-blue-600/90 transition-colors font-medium">
-                  Comenzar Gratis
-                </button>
-                <button class="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium">
-                  Ver Demo
-                </button>
+                <a href="{{ route('login') }}" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700/90 hover:cursor-pointer transition-colors font-medium">
+                  Iniciar Sesión
+                </a>
+                <a href="{{ route('register') }}" class="px-6 py-3 border border-gray-300 text-gray-700 hover:cursor-pointer rounded-md hover:bg-gray-50 transition-colors font-medium">
+                  Registrarse
+                </a>
             </div>
         </div>
 

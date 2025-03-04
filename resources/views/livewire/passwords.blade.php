@@ -32,11 +32,13 @@
                         </div>
                         <div class="flex items-center">
                           <input id="password-input" type="password" value=" {{ $pass->gen_password }} " class="w-full md:w-auto p-1 border border-gray-300 rounded-lg mr-2" readonly>
-                          <button onclick="copyPassword()" class="p-1 text-blue-500 hover:text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                            </svg>
+                          
+
+                          <button onclick="copyPassword()" class="p-1 text-blue-500 hover:text-blue-600" title="Copiar contraseña">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                  <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                                  <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                              </svg>
                           </button>
                           
                           <button 
