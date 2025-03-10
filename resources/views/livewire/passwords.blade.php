@@ -77,7 +77,7 @@
                     </div>
                     <div class="mb-5">
                         <x-label for="title_site"> Contraseña </x-label>
-                        <x-input type="text" class="w-full" value="{{ $this->passwordForm->gen_password }}" wire:model="passwordForm.gen_password" />
+                        <x-input type="text" readonly class="w-full" value="{{ $this->passwordForm->gen_password }}" wire:model="passwordForm.gen_password" />
                         <span class="text-red-400"> @error('passwordForm.gen_password') {{ $message }} @enderror </span>
                     </div>
                 </div>
@@ -105,6 +105,7 @@
   let text = document.getElementById('password-input').value;
   const copyPassword = async () => {
      try {
+      alert("hola")
        await navigator.clipboard.writeText(text);
        console.log(text);
     } catch (err) {

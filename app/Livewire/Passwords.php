@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Passwords extends Component
 {
-    public $password = "";
+    public $password_input = "";
     public $vissible = false;
     public $password_new = "";
 
@@ -35,8 +35,8 @@ class Passwords extends Component
 
     /** Métodos de base de datos */
     function mount () {
-        $this->password = $this->genPasswords();
-        $this->passwordForm->gen_password = $this->password;
+        $this->password_input = $this->genPasswords();
+        $this->passwordForm->gen_password = $this->password_input;
         $this->passwordForm->user_id = Auth::id();
     }
 

@@ -8,4 +8,16 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '127.0.0.1',
+        port: 5174,
+        hmr: {
+            host: 'app-password.com',
+        },
+        cors: {
+            origin: 'http://app-password.com',
+            methods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
+            allowedHeaders: ['*'],
+        },
+    },
 });
