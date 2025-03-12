@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms\Password;
 
+use App\Interfaces\PasswordInterface;
 use App\Models\Passwords;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -19,6 +20,7 @@ class PasswordForm extends Form
 
     #[Validate('required|exists:users,id')]
     public $user_id = "";
+
 
     
     function save() {

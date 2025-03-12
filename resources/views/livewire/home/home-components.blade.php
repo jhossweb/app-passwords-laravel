@@ -1,35 +1,37 @@
-<section class="min-h-screen flex items-center justify-center bg-gray-100">
-
-    <section class="grid grid-cols-2 gap-2">
-        
-        <div class="w-full max-w-md">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+<section class="min-h-screen flex items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <!-- Contenedor principal con diseño responsive -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl w-full">
+        <!-- Sección de texto -->
+        <div class="w-full max-w-md mx-auto lg:mx-0 lg:max-w-full lg:pr-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
                 Contraseñas Seguras, <span class="text-blue-600">sin complicaciones</span>
             </h1>
-            <p class="text-lg text-gray-600 mb-8">
+            <p class="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
                 Genera, guarda y administra tus contraseñas con total seguridad. Nunca más olvides una contraseña o
                 comprometas tu seguridad online.
             </p>
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="{{ route('login') }}" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700/90 hover:cursor-pointer transition-colors font-medium">
-                  Iniciar Sesión
+                <a href="{{ route('login') }}" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700/90 hover:cursor-pointer transition-colors font-medium text-center">
+                    Iniciar Sesión
                 </a>
-                <a href="{{ route('register') }}" class="px-6 py-3 border border-gray-300 text-gray-700 hover:cursor-pointer rounded-md hover:bg-gray-50 transition-colors font-medium">
-                  Registrarse
+                <a href="{{ route('register') }}" class="px-6 py-3 border border-gray-300 text-gray-700 hover:cursor-pointer rounded-md hover:bg-gray-50 transition-colors font-medium text-center">
+                    Registrarse
                 </a>
             </div>
         </div>
 
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <!-- Sección del generador de contraseñas -->
+        <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md mx-auto lg:mx-0">
             <h1 class="text-2xl font-bold mb-6 text-center">Generador de Contraseñas Seguras</h1>
-    
+
+            <!-- Contenedor del input de contraseña -->
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-700">Contraseña Generada</label>
                 <div class="mt-1 flex rounded-md shadow-sm">
                     <!-- Input de contraseña -->
                     <div class="relative flex-grow">
                         <input 
-                            id="password_input" 
+                            data-password-input="home" 
                             type="{{ $showPassword ? 'text' : 'password' }}" 
                             value="{{ $password }}" 
                             readonly
@@ -55,8 +57,7 @@
 
                     <!-- Botón para copiar contraseña -->
                     <button 
-                        id="copyButton"
-
+                        data-copy-button="home"
                         class="ml-2 p-2 text-blue-500 hover:text-blue-600 rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         title="Copiar contraseña"
                     >
@@ -66,7 +67,9 @@
                         </svg>
                     </button>
                 </div>
-    
+            </div>
+
+            <!-- Botón para generar contraseña -->
             <button 
                 wire:click="generatePassword" 
                 class="w-full bg-blue-600 text-white my-2 py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -74,12 +77,11 @@
             >
                 Generar Nueva Contraseña
             </button>
-    
+
+            <!-- Mensaje de límite de intentos -->
             @if($attempts >= $maxAttempts)
-                <p class="mt-4 text-sm text-red-600">Has alcanzado el límite de intentos.</p>
+                <p class="mt-4 text-sm text-red-600 text-center">Has alcanzado el límite de intentos.</p>
             @endif
         </div>
-    </section>
-
+    </div>
 </section>
-

@@ -1,5 +1,14 @@
-export const copyPassword = () => {
-    const passwordInput = document.getElementById('password_input');
+// utils/copyPassword.js
+export const copyPassword = (event) => {
+    const button = event.currentTarget; // El botón que se hizo clic
+    const passwordId = button.getAttribute('data-copy-button'); // Obtener el ID de la contraseña
+    const passwordInput = document.querySelector(`[data-password-input="${passwordId}"]`); // Encontrar el input correspondiente
+
+    if (!passwordInput) {
+        console.error('No se encontró el input de contraseña');
+        return;
+    }
+
     passwordInput.select();
     passwordInput.setSelectionRange(0, 99999);
 
