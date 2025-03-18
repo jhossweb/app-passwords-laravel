@@ -45,6 +45,7 @@ RUN mkdir -p /app/storage/logs
 
 
 ENV APP_DEBUG=false
+ENV APP_ENV=production
 ENV APP_URL=https://app-passwords-laravel.onrender.com
 ENV ASSET_URL=https://app-passwords-laravel.onrender.com
 ENV DB_URL=postgresql://app_password_user:XlB1xbUMyFXNQ5KMIGQMmrQS9zT3Ak0K@dpg-cvcdqf1c1ekc73eq3vog-a/app_password
