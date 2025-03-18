@@ -43,9 +43,6 @@ RUN composer install
 COPY .env.example .env
 RUN mkdir -p /app/storage/logs
 
-RUN php artisan cache:clear
-RUN php artisan view:clear
-RUN php artisan config:clear
 
 ENV APP_DEBUG=false
 ENV APP_URL=https://app-passwords-laravel.onrender.com
