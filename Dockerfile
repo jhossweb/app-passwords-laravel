@@ -51,7 +51,7 @@ ENV ASSET_URL=https://app-passwords-laravel.onrender.com
 ENV DB_URL=postgresql://app_password_user:XlB1xbUMyFXNQ5KMIGQMmrQS9zT3Ak0K@dpg-cvcdqf1c1ekc73eq3vog-a/app_password
 
 # Comando para iniciar el servidor web y aplicar migraciones
-RUN php artisan migrate:fresh --seed
+RUN php artisan migrate --force
 CMD php artisan serve --host=0.0.0.0 --port=8000
 
 EXPOSE 8000
