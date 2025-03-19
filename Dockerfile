@@ -14,7 +14,6 @@ RUN apk update && apk add --no-cache \
     autoconf \
     make \
     pcre-dev \
-    $PHPIZE_DEPS \
     build-essential \
     libzip-dev \
     libpng-dev \
