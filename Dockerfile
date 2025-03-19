@@ -39,18 +39,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
 RUN rm -rf /app/vendor
 RUN rm -rf /app/composer.lock
-RUN composer install
+RUN composer install --no-dev
 COPY .env.example .env
 RUN mkdir -p /app/storage/logs
 
-ENV APP_DEBUG=false
-ENV APP_KEY=base64:Itnywo1tMr5Sh24ezk8MD7aJef0rtNfZvhU0Iy3UdB4=
-ENV APP_URL=https://app-passwords-laravel.onrender.com
-ENV ASSET_URL=https://app-passwords-laravel.onrender.com
-ENV DB_URL=postgresql://app_password_user:XlB1xbUMyFXNQ5KMIGQMmrQS9zT3Ak0K@dpg-cvcdqf1c1ekc73eq3vog-a/app_password
 
-# Comando para iniciar el servidor web y aplicar migraciones
-RUN php artisan migrate:fresh --seed
-CMD php artisan serve --host=0.0.0.0 --port=8000
 
 EXPOSE 8000
