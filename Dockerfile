@@ -54,10 +54,7 @@ RUN chown -R www-data:www-data /var/www
 RUN chmod -R 775 storage bootstrap/cache
 
 # Limpia el caché de Laravel
-RUN php artisan config:clear
-RUN php artisan cache:clear
-RUN php artisan view:clear
-RUN php artisan route:clear
+
 
 
 # Expone el puerto 80 (HTTP)
