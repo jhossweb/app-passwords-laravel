@@ -39,7 +39,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
 RUN rm -rf /app/vendor
 RUN rm -rf /app/composer.lock
-RUN composer install --no-dev
+RUN composer install 
 COPY .env.example .env
 RUN mkdir -p /app/storage/logs
 
