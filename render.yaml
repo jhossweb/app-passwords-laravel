@@ -10,30 +10,34 @@ services:
         value: "true"
       - key: DB_HOST
         fromDatabase:
-          name: tu-base-de-datos
+          name: dpg-cvcdqf1c1ekc73eq3vog-a
           property: host
       - key: DB_PORT
         fromDatabase:
-          name: tu-base-de-datos
+          name: 5432
           property: port
       - key: DB_DATABASE
         fromDatabase:
-          name: tu-base-de-datos
+          name: app_password
           property: database
       - key: DB_USERNAME
         fromDatabase:
-          name: tu-base-de-datos
+          name: app_password_user
           property: user
       - key: DB_PASSWORD
         fromDatabase:
-          name: tu-base-de-datos
+          name: XlB1xbUMyFXNQ5KMIGQMmrQS9zT3Ak0K
           property: password
     buildCommand: |
       composer install --no-dev --optimize-autoloader
+      php artisan config:clear
+      php artisan cache:clear
+      php artisan view:clear
+      php artisan route:clear
       php artisan migrate --force
       php artisan storage:link
     startCommand: "exit 0"
 databases:
-  - name: tu-base-de-datos
-    databaseName: tu_base_de_datos
+  - name: app_password
+    databaseName: app_password
     type: postgres # o mysql, dependiendo de tu base de datos
