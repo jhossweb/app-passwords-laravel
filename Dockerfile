@@ -1,19 +1,17 @@
-# Usa la imagen oficial de PHP 8.4 con FPM y Nginx
-FROM php:8.4-fpm-alpine
+FROM php:8.3-apache
 
-# Instala las extensiones de PHP necesarias
-RUN apk update && apk add --no-cache \
-    nginx \
-    supervisor \
-    zip \
-    unzip \
-    git \
-    libzip-dev \
-    icu-dev \
-    g++ \
-    autoconf \
-    make \
-    pcre-dev \
+WORKDIR /var/www
+
+# Configura Apache
+RUN a2enmod rewrite
+# Establecer permisos
+RUN chown -R www-data:www-data /var/www
+
+RUN sed -ri -e 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf
+RUN sed -ri -e 's!/var/www/!/var/www/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Instalación de paquetes adicionales
+RUN apt-get update && apt-get install -y \
     build-essential \
     libzip-dev \
     libpng-dev \
@@ -27,40 +25,32 @@ RUN apk update && apk add --no-cache \
     git \
     curl \
     ffmpeg \
-    libpq-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libpq-dev
 
-RUN pecl install redis \
-    && docker-php-ext-enable redis
-
-# Instala extensiones de PHP necesarias
+# Extensiones PHP
 RUN docker-php-ext-install pdo pdo_pgsql pgsql zip exif pcntl bcmath
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
+RUN echo "max_input_vars = 5000" >> /usr/local/etc/php/php.ini
 
-
-# Instala Composer
+# Instalación de Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establece el directorio de trabajo
-WORKDIR /var/www/html
+# Copia el código fuente y el archivo .env
+COPY . .
+RUN rm -rf /app/vendor
+RUN rm -rf /app/composer.lock
+RUN composer install
+COPY .env.example .env
+RUN mkdir -p /app/storage/logs
 
-# Copia los archivos de la aplicación
-COPY . /var/www/html
+ENV APP_DEBUG=false
+ENV APP_KEY=base64:Itnywo1tMr5Sh24ezk8MD7aJef0rtNfZvhU0Iy3UdB4=
+ENV APP_URL=https://app-passwords-laravel.onrender.com
+ENV ASSET_URL=https://app-passwords-laravel.onrender.com
+ENV DB_URL=postgresql://app_password_user:XlB1xbUMyFXNQ5KMIGQMmrQS9zT3Ak0K@dpg-cvcdqf1c1ekc73eq3vog-a/app_password
 
-# Configura Nginx
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+# Comando para iniciar el servidor web y aplicar migraciones
+RUN php artisan migrate:fresh --seed
+CMD php artisan serve --host=0.0.0.0 --port=8000
 
-# Configura Supervisor
-COPY ./nginx/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Otorga permisos a los directorios de Laravel
-RUN chown -R www-data:www-data \
-    /var/www/html/storage \
-    /var/www/html/bootstrap/cache
-
-# Expone el puerto 80
-EXPOSE 80
-
-# Inicia Supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+EXPOSE 8000
