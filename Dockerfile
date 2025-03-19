@@ -1,18 +1,20 @@
-# Usa una imagen base de PHP con Apache
-FROM php:8.3-apache
+# Usa la imagen oficial de PHP 8.4 con FPM y Nginx
+FROM php:8.4-fpm-alpine
 
-# Establece el directorio de trabajo
-WORKDIR /var/www/html
-
-# Habilita el módulo de reescritura de Apache
-RUN a2enmod rewrite
-
-# Configura Apache para usar /var/www/public como raíz
-RUN sed -ri -e 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf
-RUN sed -ri -e 's!/var/www/!/var/www/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# Instala dependencias del sistema
-RUN apt-get update && apt-get install -y \
+# Instala las extensiones de PHP necesarias
+RUN apk update && apk add --no-cache \
+    nginx \
+    supervisor \
+    zip \
+    unzip \
+    git \
+    libzip-dev \
+    icu-dev \
+    g++ \
+    autoconf \
+    make \
+    pcre-dev \
+    $PHPIZE_DEPS \
     build-essential \
     libzip-dev \
     libpng-dev \
@@ -27,38 +29,39 @@ RUN apt-get update && apt-get install -y \
     curl \
     ffmpeg \
     libpq-dev \
-&& apt-get clean && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 
 # Instala extensiones de PHP necesarias
 RUN docker-php-ext-install pdo pdo_pgsql pgsql zip exif pcntl bcmath
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
-# Configura PHP para producción
-RUN echo "max_input_vars = 5000" >> /usr/local/etc/php/php.ini
-RUN echo "memory_limit = 256M" >> /usr/local/etc/php/php.ini
-RUN echo "upload_max_filesize = 64M" >> /usr/local/etc/php/php.ini
-RUN echo "post_max_size = 64M" >> /usr/local/etc/php/php.ini
 
 # Instala Composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copia el código fuente
-COPY . .
+# Establece el directorio de trabajo
+WORKDIR /var/www/html
 
-# Instala dependencias de Composer (sin dependencias de desarrollo)
-RUN composer install --optimize-autoloader --no-dev
+# Copia los archivos de la aplicación
+COPY . /var/www/html
 
-# Establece permisos
-RUN chown -R www-data:www-data /var/www
-RUN chmod -R 775 storage bootstrap/cache
+# Configura Nginx
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Limpia el caché de Laravel
+# Configura Supervisor
+COPY ./nginx/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Otorga permisos a los directorios de Laravel
+RUN chown -R www-data:www-data \
+    /var/www/html/storage \
+    /var/www/html/bootstrap/cache
 
-
-# Expone el puerto 80 (HTTP)
+# Expone el puerto 80
 EXPOSE 80
 
-# Comando para iniciar Apache
-CMD ["apache2-foreground"]
+# Inicia Supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
