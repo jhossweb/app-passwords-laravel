@@ -4,6 +4,7 @@ WORKDIR /var/www
 
 # Configura Apache
 RUN a2enmod rewrite
+
 # Establecer permisos
 RUN chown -R www-data:www-data /var/www
 
@@ -37,12 +38,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copia el código fuente y el archivo .env
 COPY . .
-RUN rm -rf /app/vendor
-RUN rm -rf /app/composer.lock
-RUN composer install 
+RUN chown -R www-data:www-data /var/www/storage
+RUN chown -R www-data:www-data /var/www/bootstrap/cache
+
+# Instala dependencias de Composer
+USER www-data
+RUN composer install --no-dev --optimize-autoloader
+USER root
+
 COPY .env.example .env
-RUN mkdir -p /app/storage/logs
-
-
 
 EXPOSE 8000
+
+CMD ["apache2-foreground"]
