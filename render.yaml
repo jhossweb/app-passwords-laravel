@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: https://app-passwords-laravel.onrender.com
+    runtime: docker
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_STORAGE_LINK
+        value: "true"
+      - key: DB_HOST
+        fromDatabase:
+          name: tu-base-de-datos
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: tu-base-de-datos
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: tu-base-de-datos
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: tu-base-de-datos
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: tu-base-de-datos
+          property: password
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan migrate --force
+      php artisan storage:link
+    startCommand: "exit 0"
+databases:
+  - name: tu-base-de-datos
+    databaseName: tu_base_de_datos
+    type: postgres # o mysql, dependiendo de tu base de datos
