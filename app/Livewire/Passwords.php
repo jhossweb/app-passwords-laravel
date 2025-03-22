@@ -40,6 +40,7 @@ class Passwords extends Component
 
     /** Métodos de base de datos */
     function mount () {
+        
         $this->password_input = $this->servicePassword->generate();
         $this->passwordForm->gen_password = $this->password_input;
         $this->passwordForm->user_id = Auth::id();
@@ -62,7 +63,7 @@ class Passwords extends Component
     public function render()
     {
         
-        $passwords = ModelsPasswords::all();
+        $passwords = ModelsPasswords::with("user")->where("id", Auth::id())->get();
         return view('livewire.passwords', compact('passwords'));
     }
 }

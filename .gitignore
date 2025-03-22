@@ -24,3 +24,5 @@ yarn-error.log
 /.zed
 
 .Dockerfile.swp
+
+/app/Http/Controllers/Api
