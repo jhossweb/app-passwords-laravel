@@ -1,4 +1,5 @@
 import './bootstrap';
+
 import { copyPassword } from './utils/copyPassword';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,4 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyButton.forEach(button => {
         button.addEventListener('click', copyPassword);
     });
+
+
+  
 });

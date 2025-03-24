@@ -13,10 +13,10 @@ export default defineConfig({
         host: '127.0.0.1',
         port: 5174,
         hmr: {
-            host: 'app-password.com',
+            host: 'localhost',
         },
         cors: {
-            origin: 'http://app-password.com',
+            origin: 'http://localhost',
             methods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
             allowedHeaders: ['*'],
         },

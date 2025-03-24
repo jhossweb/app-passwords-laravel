@@ -21,7 +21,7 @@
         </div>
 
         <!-- Sección del generador de contraseñas -->
-        <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md mx-auto lg:mx-0">
+        <div class="bg-white p-6 sm:p-8  rounded-lg shadow-lg w-full max-w-md mx-auto lg:mx-0">
             <h1 class="text-2xl font-bold mb-6 text-center">Generador de Contraseñas Seguras</h1>
 
             <!-- Contenedor del input de contraseña -->

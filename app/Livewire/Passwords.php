@@ -50,6 +50,8 @@ class Passwords extends Component
         $this->validate();
         $this->passwordForm->save();
         $this->vissible = false;
+
+        session()->flash("message", "Contraseña Creada");
     }
 
     function delete( int|string $id ) {
@@ -62,8 +64,7 @@ class Passwords extends Component
     
     public function render()
     {
-        
-        $passwords = ModelsPasswords::with("user")->where("id", Auth::id())->get();
+        $passwords = ModelsPasswords::with("user")->where("user_id", Auth::id())->get();
         return view('livewire.passwords', compact('passwords'));
     }
 }

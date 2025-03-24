@@ -112,3 +112,13 @@
     </form>
 </div>
 
+<script>
+    
+    // Función para cerrar el mensaje
+    function closeMessage(elementId) {
+        const messageElement = document.getElementById(elementId);
+        if (messageElement) {
+            messageElement.style.display = 'none'; // Oculta el mensaje
+        }
+    }
+</script>

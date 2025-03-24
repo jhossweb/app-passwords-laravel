@@ -12,10 +12,10 @@ class PasswordForm extends Form
     #[Validate('required|min:5')]
     public $title_site = "";
 
-    #[Validate('required|url|min:5')]
+    #[Validate('url|min:5')]
     public $site_url = "";
 
-    #[Validate('required|min:5')]
+    #[Validate('required|min:16')]
     public $gen_password = "";
 
     #[Validate('required|exists:users,id')]

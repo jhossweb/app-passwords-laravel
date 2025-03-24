@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string("title_site", 100);
-            $table->string("site_url");
+            $table->string("site_url")->nullable();
             $table->string("gen_password");
 
             $table->foreignId("user_id")
