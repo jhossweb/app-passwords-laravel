@@ -29,6 +29,8 @@ class PasswordForm extends Form
         $passwordSave = Passwords::create(
             $this->only(["title_site", "site_url", "gen_password","user_id"])
         );
+
+        return $passwordSave;
     }
 
 

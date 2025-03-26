@@ -25,17 +25,7 @@ class Passwords extends Component
         $this->vissible =  true;
     }
 
-    function genPasswords() {
-        $longitud = 16;
-        $caracteres = env('PASSWORD_CHARACTERS', 'default_characters_if_not_set');
-        $longitudCaracteres = strlen($caracteres);
-        $contraseña = '';
-        for ($i = 0; $i < $longitud; $i++) {
-            $contraseña .= $caracteres[random_int(0, $longitudCaracteres - 1)];
-        }
-
-        return $contraseña;
-    }
+    
 
 
     /** Métodos de base de datos */
@@ -48,10 +38,17 @@ class Passwords extends Component
 
     function save() {
         $this->validate();
-        $this->passwordForm->save();
-        $this->vissible = false;
-
-        session()->flash("message", "Contraseña Creada");
+        $saved = $this->passwordForm->save();
+        
+        if ($saved) {
+            $this->passwordForm->reset();
+            $this->vissible = false;
+            $this->password_input = $this->servicePassword->generate();
+            $this->passwordForm->gen_password = $this->password_input;
+            session()->flash("message", "Contraseña Creada");
+        } else {
+            session()->flash("error", "No se pudo guardar la contraseña.");
+        }
     }
 
     function delete( int|string $id ) {
