@@ -28,6 +28,6 @@ class GoogleAuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/passwords');
+        return redirect('/dashboard');
     }
 }

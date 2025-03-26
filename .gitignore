@@ -25,4 +25,4 @@ yarn-error.log
 
 .Dockerfile.swp
 
-/app/Http/Controllers/Api
+./app/Http/Controllers/Api
